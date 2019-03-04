@@ -51,7 +51,7 @@ public class Datastore {
    * Gets messages with the specified recipient.
    *
    * @return a list of messages with the specified recipient, or empty list if user is not the recipient
-   * 	of any messages. List is sorted by time descending.
+   *    of any messages. List is sorted by time descending.
    */
   public List<Message> getMessages(String recipient) {
     List<Message> messages = new ArrayList<>();
@@ -89,6 +89,8 @@ public class Datastore {
     PreparedQuery results = datastore.prepare(query);
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
+
+  /* Fetches messages for all users. */
   public List<Message> getAllMessages(){
   List<Message> messages = new ArrayList<>();
 
