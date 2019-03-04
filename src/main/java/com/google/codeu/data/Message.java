@@ -43,6 +43,7 @@ public class Message {
     this.recipient = recipient;
   }
 
+
   public UUID getId() {
     return id;
   }
