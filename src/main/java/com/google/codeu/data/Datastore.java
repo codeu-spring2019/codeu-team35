@@ -83,6 +83,7 @@ public class Datastore {
 	}
 
 
+
 	public List<Message> getAllMessages() {
 		List<Message> messages = new ArrayList<>();
 
@@ -119,6 +120,6 @@ public class Datastore {
 		PreparedQuery results = datastore.prepare(query);
 		return results.countEntities(FetchOptions.Builder.withLimit(1000));
 	}
-
+	
 }
 
