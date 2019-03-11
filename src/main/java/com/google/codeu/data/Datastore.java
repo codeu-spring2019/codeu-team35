@@ -91,7 +91,6 @@ public class Datastore {
     return results.countEntities(FetchOptions.Builder.withLimit(1000));
   }
 
-<<<<<<< HEAD
   /** Stores the User in Datastore. */
   public void storeUser(User user) {
     Entity userEntity = new Entity("User", user.getEmail());
@@ -119,7 +118,6 @@ public class Datastore {
 
     return user;
   }
-=======
   /* Fetches messages for all users. */
   public List<Message> getAllMessages(){
   List<Message> messages = new ArrayList<>();
@@ -149,6 +147,5 @@ public class Datastore {
   return messages;
  }
 
->>>>>>> f77704da057a975221100be2b677c76e59d198b1
 }
 
