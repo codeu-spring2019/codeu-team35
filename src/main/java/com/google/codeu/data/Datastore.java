@@ -37,7 +37,9 @@ public class Datastore {
 		datastore = DatastoreServiceFactory.getDatastoreService();
 	}
 
-	/** Stores the Message in Datastore. */
+	/**
+	 * Stores the Message in Datastore.
+	 */
 	public void storeMessage(Message message) {
 		Entity messageEntity = new Entity("Message", message.getId().toString());
 		messageEntity.setProperty("user", message.getUser());
@@ -51,14 +53,14 @@ public class Datastore {
 	 * Gets messages with the specified recipient.
 	 *
 	 * @return a list of messages with the specified recipient, or empty list if user is not the recipient
-	 * 	of any messages. List is sorted by time descending.
+	 * of any messages. List is sorted by time descending.
 	 */
 	public List<Message> getMessages(String recipient) {
 		List<Message> messages = new ArrayList<>();
 		Query query =
 				new Query("Message")
-				.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
-				.addSort("timestamp", SortDirection.DESCENDING);
+						.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+						.addSort("timestamp", SortDirection.DESCENDING);
 		PreparedQuery results = datastore.prepare(query);
 		for (Entity entity : results.asIterable()) {
 			try {
@@ -117,3 +119,4 @@ public class Datastore {
   return messages;
  }
 }
+
