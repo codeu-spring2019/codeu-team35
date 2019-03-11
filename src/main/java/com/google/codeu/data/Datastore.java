@@ -31,21 +31,56 @@ import com.google.appengine.api.datastore.FetchOptions;
 /** Provides access to the data stored in Datastore. */
 public class Datastore {
 
-  private DatastoreService datastore;
+	private DatastoreService datastore;
 
-  public Datastore() {
-    datastore = DatastoreServiceFactory.getDatastoreService();
-  }
+	public Datastore() {
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
 
-  /** Stores the Message in Datastore. */
-  public void storeMessage(Message message) {
-    Entity messageEntity = new Entity("Message", message.getId().toString());
-    messageEntity.setProperty("user", message.getUser());
-    messageEntity.setProperty("text", message.getText());
-    messageEntity.setProperty("timestamp", message.getTimestamp());
-    messageEntity.setProperty("recipient", message.getRecipient());
-    datastore.put(messageEntity);
-  }
+	/**
+	 * Stores the Message in Datastore.
+	 */
+	public void storeMessage(Message message) {
+		Entity messageEntity = new Entity("Message", message.getId().toString());
+		messageEntity.setProperty("user", message.getUser());
+		messageEntity.setProperty("text", message.getText());
+		messageEntity.setProperty("timestamp", message.getTimestamp());
+		messageEntity.setProperty("recipient", message.getRecipient());
+		datastore.put(messageEntity);
+	}
+
+	/**
+	 * Gets messages with the specified recipient.
+	 *
+	 * @return a list of messages with the specified recipient, or empty list if user is not the recipient
+	 * of any messages. List is sorted by time descending.
+	 */
+	public List<Message> getMessages(String recipient) {
+		List<Message> messages = new ArrayList<>();
+		Query query =
+				new Query("Message")
+						.setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
+						.addSort("timestamp", SortDirection.DESCENDING);
+		PreparedQuery results = datastore.prepare(query);
+		for (Entity entity : results.asIterable()) {
+			try {
+				String idString = entity.getKey().getName();
+				UUID id = UUID.fromString(idString);
+				String user = (String) entity.getProperty("user");
+
+				String text = (String) entity.getProperty("text");
+				long timestamp = (long) entity.getProperty("timestamp");
+
+				Message message = new Message(id, user, text, timestamp, recipient);
+				messages.add(message);
+			} catch (Exception e) {
+				System.err.println("Error reading message.");
+				System.err.println(entity.toString());
+				e.printStackTrace();
+			}
+		}
+		return messages;
+	}
 
   /**
    * Gets messages with the specified recipient.
@@ -61,27 +96,8 @@ public class Datastore {
             .setFilter(new Query.FilterPredicate("recipient", FilterOperator.EQUAL, recipient))
             .addSort("timestamp", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
+}
 
-    for (Entity entity : results.asIterable()) {
-      try {
-        String idString = entity.getKey().getName();
-        UUID id = UUID.fromString(idString);
-        String user = (String) entity.getProperty("user");
-
-        String text = (String) entity.getProperty("text");
-        long timestamp = (long) entity.getProperty("timestamp");
-
-        Message message = new Message(id, user, text, timestamp, recipient);
-        messages.add(message);
-      } catch (Exception e) {
-        System.err.println("Error reading message.");
-        System.err.println(entity.toString());
-        e.printStackTrace();
-      }
-    }
-
-    return messages;
-  }
 
   /** Returns the total number of messages for all users. */
   public int getTotalMessageCount(){
@@ -119,3 +135,4 @@ public class Datastore {
   return messages;
  }
 }
+
