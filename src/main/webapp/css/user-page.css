@@ -104,29 +104,3 @@ textarea[type=text-input]:focus {
 .hidden {
   display: none;
 }
-/*
-#message-input, #about-me-input {
-  height: 100px;
-  width: 100%;
-}
-
-
-.message-div {
-  border: thin solid black;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.message-header {
-  border-bottom: thin solid black;
-  padding: 5px;
-}
-
-.message-body {
-  margin: 5px;
-}
-
-.hidden {
-  display: none;
-}
-*/
