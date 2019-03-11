@@ -9,6 +9,7 @@
     <!-- Calls the Map constructor, passes it the div element, and gives it a center and a zoom  -->
     <!-- Below that, we create a map marker  -->
     <!-- Below that, we an info window that provides more information about the marker  -->
+    <!-- Below that, we created an even so that the event window shows up when the marker is clicked  -->
     <script>
   let map;
   function createMap(){
@@ -28,6 +29,11 @@
     content: 'This is Stan, the T-Rex statue.'
     });
     trexInfoWindow.open(map, trexMarker);
+
+
+    trexMarker.addListener('click', function() {
+        trexInfoWindow.open(map, trexMarker);
+    });
   }
     </script>
 
