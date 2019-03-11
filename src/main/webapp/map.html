@@ -7,7 +7,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASld0Wk6zVLZj1KtWstaR5R1NcGCg6tNk"></script>
 
     <!-- Calls the Map constructor, passes it the div element, and gives it a center and a zoom  -->
-    <!-- Below, we create a map marker  -->
+    <!-- Below that, we create a map marker  -->
+    <!-- Below that, we an info window that provides more information about the marker  -->
     <script>
   let map;
   function createMap(){
@@ -22,6 +23,11 @@
         map: map,
         title: 'Stan the T-Rex'
     });
+
+    var trexInfoWindow = new google.maps.InfoWindow({
+    content: 'This is Stan, the T-Rex statue.'
+    });
+    trexInfoWindow.open(map, trexMarker);
   }
     </script>
 
