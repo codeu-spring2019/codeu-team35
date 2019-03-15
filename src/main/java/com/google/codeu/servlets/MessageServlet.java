@@ -75,10 +75,11 @@ public class MessageServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
-
     String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
     
+    //whitelist.basic() processes basic html but no malicious js injection
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
+
     String regex = "(https?://(\\w+[/|.|-]?)+\\.(bmp|png|jpg|gif|jpeg|tiff)).*";
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
