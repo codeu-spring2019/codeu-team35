@@ -17,6 +17,10 @@
 
 package com.google.codeu.servlets;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.Translate.TranslateOption;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.translate.Translation;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
@@ -36,6 +40,9 @@ import org.jsoup.safety.Whitelist;
 public class MessageServlet extends HttpServlet {
 
   private Datastore datastore;
+
+  
+
 
   @Override
   public void init() {
@@ -87,4 +94,7 @@ public class MessageServlet extends HttpServlet {
     datastore.storeMessage(message);
     response.sendRedirect("/user-page.html?user=" + recipient);
   }
+
+
+
 }
