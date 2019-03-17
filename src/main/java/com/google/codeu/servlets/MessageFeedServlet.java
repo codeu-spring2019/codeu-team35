@@ -37,6 +37,7 @@ public class MessageFeedServlet extends HttpServlet{
   List<Message> messages = datastore.getAllMessages();
   Gson gson = new Gson();
   String json = gson.toJson(messages);
+
   
   response.getOutputStream().println(json);
  }

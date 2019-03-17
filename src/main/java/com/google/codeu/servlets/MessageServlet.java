@@ -84,9 +84,9 @@ public class MessageServlet extends HttpServlet {
       response.sendRedirect("/index.html");
       return;
     }
-
     String user = userService.getCurrentUser().getEmail();
-    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.none());
+ //whitelist.basic() processes basic html but no malicious js injection
+    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
