@@ -21,55 +21,66 @@ import java.util.UUID;
 /** A single message posted by a user. */
 public class Message {
 
-  private UUID id;
-  private String user;
-  private String text;
-  private long timestamp;
-  private String recipient;
-  private String imageUrl;
-  
-  public String getImageUrl() {
-	return imageUrl;
+	private UUID id;
+	private String user;
+	private String text;
+	private long timestamp;
+	private String recipient;
+	private String imageUrl;
+	private String imageLabels;
+
+	public String getImageLabels() {
+		return imageLabels;
 	}
-	
+
+	public void setImageLabels(String imageLabels) {
+		this.imageLabels = imageLabels;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 
-/**
-   * Constructs a new {@link Message} posted by {@code user} to recipient {@code recipient} with {@code text} content. Generates a
-   * random ID and uses the current system time for the creation time.
-   */
-  public Message(String user, String text, String recipient) {
-    this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient);
-  }
+	/**
+	 * Constructs a new {@link Message} posted by {@code user} to recipient {@code recipient} with {@code text} content. Generates a
+	 * random ID and uses the current system time for the creation time.
+	 * @param imageUrl 
+	 */
+	public Message(String user, String text, String recipient, String imageUrl, String imageLabels) {
+		this(UUID.randomUUID(), user, text, System.currentTimeMillis(), recipient, imageUrl, imageLabels);
+	}
 
-  public Message(UUID id, String user, String text, long timestamp, String recipient) {
-    this.id = id;
-    this.user = user;
-    this.text = text;
-    this.timestamp = timestamp;
-    this.recipient = recipient;
-  }
+	public Message(UUID id, String user, String text, long timestamp, String recipient, String imageUrl, String imageLabels) {
+		this.id = id;
+		this.user = user;
+		this.text = text;
+		this.timestamp = timestamp;
+		this.recipient = recipient;
+		this.imageUrl = imageUrl;
+		this.imageLabels = imageLabels;
+	}
 
+	public UUID getId() {
+		return id;
+	}
 
-  public UUID getId() {
-    return id;
-  }
+	public String getUser() {
+		return user;
+	}
 
-  public String getUser() {
-    return user;
-  }
+	public String getText() {
+		return text;
+	}
 
-  public String getText() {
-    return text;
-  }
+	public long getTimestamp() {
+		return timestamp;
+	}
 
-  public long getTimestamp() {
-    return timestamp;
-  }
-  
-  public String getRecipient() {
-	  return recipient;
-  }
+	public String getRecipient() {
+		return recipient;
+	}
 }
