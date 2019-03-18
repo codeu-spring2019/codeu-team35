@@ -113,4 +113,5 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
+  ClassicEditor.create( document.getElementById('message-input') );
 }
