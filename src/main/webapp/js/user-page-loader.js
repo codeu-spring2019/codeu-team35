@@ -95,5 +95,6 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
+  fetchAboutMe();
   ClassicEditor.create( document.getElementById('message-input') );
 }
