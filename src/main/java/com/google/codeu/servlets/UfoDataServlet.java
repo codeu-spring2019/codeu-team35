@@ -28,7 +28,6 @@ public class UfoDataServlet extends HttpServlet {
 
             String state = cells[0];
             String shape = cells[1];
-            int duration = Integer.parseInt(cells[2]);
             double lat = Double.parseDouble(cells[4]);
             double lng = Double.parseDouble(cells[5]);
 
