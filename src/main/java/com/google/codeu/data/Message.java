@@ -26,8 +26,17 @@ public class Message {
   private String text;
   private long timestamp;
   private String recipient;
+  private String imageUrl;
   
-  /**
+  public String getImageUrl() {
+	return imageUrl;
+	}
+	
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+/**
    * Constructs a new {@link Message} posted by {@code user} to recipient {@code recipient} with {@code text} content. Generates a
    * random ID and uses the current system time for the creation time.
    */
