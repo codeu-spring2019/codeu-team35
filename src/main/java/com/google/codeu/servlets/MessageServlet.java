@@ -119,7 +119,7 @@ public class MessageServlet extends HttpServlet {
 			message.setImageUrl(imageUrl);
 			byte[] blobBytes = getBlobBytes(blobstoreService, blobKey);
 			String imageLabels = getImageLabels(blobBytes);
-		    message.setImageLabels(imageLabels);
+		  message.setImageLabels(imageLabels);
 			System.out.println("image labels in MessageServlet: ");
 			System.out.println(message.getImageLabels());
 		}

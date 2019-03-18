@@ -30,7 +30,7 @@ function setPageTitle() {
 }
 
 /**
- * Shows the message form if the user is logged in and viewing their own page.
+ * Shows the message form if the user is logged in, adds recipient parameter to action attribute
  */
 function showMessageFormIfLoggedIn() {
   fetch('/login-status')
@@ -39,21 +39,10 @@ function showMessageFormIfLoggedIn() {
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
-          fetchImageUploadUrlAndShowForm();
+          const messageForm = document.getElementById('message-form');
+          messageForm.action = '/messages?recipient=' + parameterUsername;
+          messageForm.classList.remove('hidden');
         }
-      });
-}
-
-function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('message-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
-        document.getElementById('recipientInput').value = parameterUsername;
       });
 }
 
@@ -92,14 +81,7 @@ function buildMessageDiv(message) {
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
-  if(message.imageUrl){
-	bodyDiv.innerHTML += '<br/>';
-  	bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
-  }
-  if(message.imageLabels){
-    bodyDiv.innerHTML += '<br/>';
-    bodyDiv.innerHTML += message.imageLabels;
-  }
+
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
@@ -113,5 +95,4 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-  ClassicEditor.create( document.getElementById('message-input') );
 }
