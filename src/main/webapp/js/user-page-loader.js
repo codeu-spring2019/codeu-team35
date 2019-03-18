@@ -159,9 +159,15 @@ function buildUI() {
   showMessageFormIfLoggedIn();
   fetchMessages();
 <<<<<<< HEAD
+<<<<<<< HEAD
   fetchAboutMe();
 }
 =======
   ClassicEditor.create( document.getElementById('message-input') );
 }
 >>>>>>> 9c8a53ce99c1eae631432b7181b661271371e03e
+=======
+  fetchAboutMe();
+  ClassicEditor.create( document.getElementById('message-input') );
+}
+>>>>>>> e7f2fadef410e630ea1bfc8e5997e0bf038b13cb
