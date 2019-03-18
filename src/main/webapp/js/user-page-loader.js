@@ -131,6 +131,7 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.classList.add('padded');
+<<<<<<< HEAD
 
 /*
   headerDiv.appendChild(document.createTextNode(
@@ -139,6 +140,16 @@ function buildMessageDiv(message) {
   headerDiv.appendChild(document.createTextNode(
       message.user + ' - ' + new Date(message.timestamp)));
 
+=======
+
+/*
+  headerDiv.appendChild(document.createTextNode(
+      message.user + ' - ' + formatDate(message.timestamp)));
+*/
+  headerDiv.appendChild(document.createTextNode(
+      message.user + ' - ' + new Date(message.timestamp)));
+
+>>>>>>> 7e7b6b3751a99f4eaf7f5f4284b72b01482e358e
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.classList.add('padded');
@@ -160,6 +171,7 @@ function buildUI() {
   fetchMessages();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   fetchAboutMe();
 }
 =======
@@ -171,3 +183,8 @@ function buildUI() {
   ClassicEditor.create( document.getElementById('message-input') );
 }
 >>>>>>> e7f2fadef410e630ea1bfc8e5997e0bf038b13cb
+=======
+  fetchAboutMe();
+  ClassicEditor.create( document.getElementById('message-input') );
+}
+>>>>>>> 7e7b6b3751a99f4eaf7f5f4284b72b01482e358e
