@@ -29,8 +29,8 @@ public class UfoDataServlet extends HttpServlet {
 
             if (cells[0]!= null && cells[4]!= null && cells[5]!= null) {
                 String state = cells[0];
-                double lat = Double.parseDouble(cells[4]);
-                double lng = Double.parseDouble(cells[5]);
+                double lat = Double.parseDouble(cells[3]);
+                double lng = Double.parseDouble(cells[4]);
                 ufoSightingArray.add(gson.toJsonTree(new UfoSighting(state, lat, lng)));
             }
 
