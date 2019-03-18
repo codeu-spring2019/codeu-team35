@@ -27,7 +27,7 @@ public class UfoDataServlet extends HttpServlet {
             String[] cells = line.split(",");
 
 
-            if (cells[0]!= null && cells[4]!= null && cells[5]!= null) {
+            if (cells[0]!= null && cells[3]!= null && cells[4]!= null) {
                 String state = cells[0];
                 double lat = Double.parseDouble(cells[3]);
                 double lng = Double.parseDouble(cells[4]);
