@@ -1,5 +1,4 @@
 /*
-
  * Copyright 2019 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.google.codeu.servlets;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -28,21 +25,18 @@ import com.google.appengine.api.users.UserServiceFactory;
 import com.google.codeu.data.Datastore;
 import com.google.codeu.data.Message;
 import com.google.gson.Gson;
-
 import java.io.ByteArrayOutputStream;
 import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
-
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
@@ -58,38 +52,32 @@ import java.util.ArrayList;
 /** Handles fetching and saving {@link Message} instances. */
 @WebServlet("/messages")
 public class MessageServlet extends HttpServlet {
-
 	private Datastore datastore;
-
+	
 	@Override
 	public void init() {
 		datastore = new Datastore();
 	}
-
+	
 	/**
 	 * Responds with a JSON representation of {@link Message} data for a specific user. Responds with
 	 * an empty array if the user is not provided.
 	 */
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
 		response.setContentType("application/json");
-
 		String user = request.getParameter("user");
-
 		if (user == null || user.equals("")) {
 			// Request is invalid, return empty array
 			response.getWriter().println("[]");
 			return;
 		}
-
 		List<Message> messages = datastore.getMessages(user);
 		Gson gson = new Gson();
 		String json = gson.toJson(messages);
-
 		response.getWriter().println(json);
 	}
-
+	
 	/** Stores a new {@link Message}. */
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -98,7 +86,6 @@ public class MessageServlet extends HttpServlet {
 			response.sendRedirect("/index.html");
 			return;
 		}
-
 		String user = userService.getCurrentUser().getEmail();
 		//whitelist.basic() processes basic html but no malicious js injection
 		String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
@@ -123,14 +110,11 @@ public class MessageServlet extends HttpServlet {
 		datastore.storeMessage(message);
 		response.sendRedirect("/user-page.html?user=" + recipient);
 	}
-
+	
 	private byte[] getBlobBytes(BlobstoreService blobstoreService, BlobKey blobKey)
 			throws IOException {
-
 		ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-
 		int fetchSize = BlobstoreService.MAX_BLOB_FETCH_SIZE;
-
 		long currentByteIndex = 0;
 		boolean continueReading = true;
 		while (continueReading) {
@@ -138,43 +122,35 @@ public class MessageServlet extends HttpServlet {
 			byte[] b =
 					blobstoreService.fetchData(blobKey, currentByteIndex, currentByteIndex + fetchSize - 1);
 			outputBytes.write(b);
-
 			// if we read fewer bytes than we requested, then we reached the end
 			if (b.length < fetchSize) {
 				continueReading = false;
 			}
-
 			currentByteIndex += fetchSize;
 		}
-
 		return outputBytes.toByteArray();
 	}
-
+	
 	private String getImageLabels(byte[] imgBytes) throws IOException {
 		ByteString byteString = ByteString.copyFrom(imgBytes);
 		Image image = Image.newBuilder().setContent(byteString).build();
-
 		Feature feature = Feature.newBuilder().setType(Type.LABEL_DETECTION).build();
 		AnnotateImageRequest request =
 				AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
 		List<AnnotateImageRequest> requests = new ArrayList<>();
 		requests.add(request);
-
 		ImageAnnotatorClient client = ImageAnnotatorClient.create();
 		BatchAnnotateImagesResponse batchResponse = client.batchAnnotateImages(requests);
 		client.close();
 		List<AnnotateImageResponse> imageResponses = batchResponse.getResponsesList();
 		AnnotateImageResponse imageResponse = imageResponses.get(0);
-
 		if (imageResponse.hasError()) {
 			System.err.println("Error getting image labels: " + imageResponse.getError().getMessage());
 			return null;
 		}
-
 		String labelsString = imageResponse.getLabelAnnotationsList().stream()
 				.map(EntityAnnotation::getDescription)
 				.collect(Collectors.joining(", "));
-
 		return labelsString;
 	}
 }
