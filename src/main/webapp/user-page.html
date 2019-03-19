@@ -1,12 +1,9 @@
 <!--
 Copyright 2019 Google Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,24 +21,47 @@ limitations under the License.
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
   </head>
   <body onload="buildUI();">
-    <nav>
-      <ul id="navigation">
-        <li><a href="/">Home</a></li>
-      </ul>
-    </nav>
-    <h1 id="page-title">User Page</h1>
+    <div id="content">
+      <nav id="navigation centered">
+        <center>
+          <a href="/">Home</a>
+          <a href="/your-page">Your Page</a>
+          <a href="/map.html">Map</a>
+          <a href="/about.html">About our Team</a>
+	       </center>
+      </nav>
 
-    <form id="message-form" class="hidden" method="POST" enctype="multipart/form-data">
-	  Enter a new message:
-	  <br/>
-	  <textarea name="text" id="message-input"></textarea>
-	  <br/>
-	  Add an image to your message:
-	  <input type="file" name="image">
-	  <br/>
-	  <input type="hidden" value="" name="recipient" id="recipientInput">
-	  <input type="submit" value="Submit">
-	</form>
+      <div class="padded rounded panel centered">
+        <h1 id="page-title">User Page</h1>
+      </div>
+
+      <div class="padded rounded panel">
+        <form id="about-me-form" action="/about" method="POST" class="hidden">
+	  <center>
+	    <h2>
+              <div id="about-me-container">Loading...</div>
+	      <br/>
+	    </h2>
+	  </center>
+          <textarea type="text-input" name="about-me" id="about-me-input" placeholder="about me" rows=4 required></textarea>
+          <br/>
+          <input type="submit" value="Submit">
+        </form>
+      </div>
+
+      <div class="padded rounded panel">
+	    <form id="message-form" class="hidden" method="POST" enctype="multipart/form-data">
+		  Enter a new message:
+		  <br/>
+		  <textarea name="text" id="message-input"></textarea>
+		  <br/>
+		  Add an image to your message:
+		  <input type="file" name="image">
+		  <br/>
+		  <input type="hidden" value="" name="recipient" id="recipientInput">
+		  <input type="submit" value="Submit">
+		</form>
+	  </div>
     <hr/>
     <div id="message-container">Loading...</div>
     </div>

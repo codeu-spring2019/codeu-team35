@@ -100,16 +100,15 @@ public class MessageServlet extends HttpServlet {
 		}
 
 		String user = userService.getCurrentUser().getEmail();
-		 //whitelist.basic() processes basic html but no malicious js injection
-	    String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
-	    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+		//whitelist.basic() processes basic html but no malicious js injection
+		String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
+		BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 		Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
 		List<BlobKey> blobKeys = blobs.get("image");
 		String regex = "(https?://(\\w+[/|.|-]?)+\\.(bmp|png|jpg|gif|jpeg|tiff)).*";
 		String replacement = "<img src=\"$1\" />";
 		String textWithImagesReplaced = userText.replaceAll(regex, replacement);
 		String recipient = request.getParameter("recipient");
-		System.out.println("recipient is "+recipient);
 		Message message = new Message(user, textWithImagesReplaced, recipient, "", "");
 		if(blobKeys != null && !blobKeys.isEmpty()) {
 			BlobKey blobKey = blobKeys.get(0);
@@ -119,9 +118,7 @@ public class MessageServlet extends HttpServlet {
 			message.setImageUrl(imageUrl);
 			byte[] blobBytes = getBlobBytes(blobstoreService, blobKey);
 			String imageLabels = getImageLabels(blobBytes);
-		  message.setImageLabels(imageLabels);
-			System.out.println("image labels in MessageServlet: ");
-			System.out.println(message.getImageLabels());
+			message.setImageLabels(imageLabels);
 		}
 		datastore.storeMessage(message);
 		response.sendRedirect("/user-page.html?user=" + recipient);
