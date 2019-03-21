@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search);
 const parameterUsername = urlParams.get('user');
@@ -109,7 +108,6 @@ function buildMessageDiv(message) {
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
       message.user + ' - ' + new Date(message.timestamp)));
-
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
@@ -117,12 +115,10 @@ function buildMessageDiv(message) {
 	bodyDiv.innerHTML += '<br/>';
   	bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
   }
-
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
-
   return messageDiv;
 }
 */
@@ -131,7 +127,6 @@ function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
   headerDiv.classList.add('padded');
-<<<<<<< HEAD
 
 /*
   headerDiv.appendChild(document.createTextNode(
@@ -140,16 +135,6 @@ function buildMessageDiv(message) {
   headerDiv.appendChild(document.createTextNode(
       message.user + ' - ' + new Date(message.timestamp)));
 
-=======
-
-/*
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + formatDate(message.timestamp)));
-*/
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
-
->>>>>>> 7e7b6b3751a99f4eaf7f5f4284b72b01482e358e
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.classList.add('padded');
@@ -169,22 +154,6 @@ function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  fetchAboutMe();
-}
-=======
-  ClassicEditor.create( document.getElementById('message-input') );
-}
->>>>>>> 9c8a53ce99c1eae631432b7181b661271371e03e
-=======
   fetchAboutMe();
   ClassicEditor.create( document.getElementById('message-input') );
 }
->>>>>>> e7f2fadef410e630ea1bfc8e5997e0bf038b13cb
-=======
-  fetchAboutMe();
-  ClassicEditor.create( document.getElementById('message-input') );
-}
->>>>>>> 7e7b6b3751a99f4eaf7f5f4284b72b01482e358e
