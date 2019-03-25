@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>User Map</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASld0Wk6zVLZj1KtWstaR5R1NcGCg6tNk"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
     <script>
-    let map;
     let editMarker;
+    let map;
 
     function createMap(){
 
@@ -16,6 +16,18 @@
 
       map.addListener('click', (event) => {
         createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+      });
+
+      fetchMarkers();
+    }
+
+    function fetchMarkers(){
+      fetch('/user-markers').then((response) => {
+        return response.json();
+      }).then((markers) => {
+        markers.forEach((marker) => {
+         createMarkerForDisplay(marker.lat, marker.lng, marker.content)
+        });
       });
     }
 
@@ -31,6 +43,18 @@
       });
       marker.addListener('click', () => {
         infoWindow.open(map, marker);
+      });
+    }
+
+    function postMarker(lat, lng, content){
+      const params = new URLSearchParams();
+      params.append('lat', lat);
+      params.append('lng', lng);
+      params.append('content', content);
+
+      fetch('/user-markers', {
+        method: 'POST',
+        body: params
       });
     }
 
@@ -62,6 +86,7 @@
       button.appendChild(document.createTextNode('Submit'));
 
       button.onclick = () => {
+        postMarker(lat, lng, textBox.value);
         createMarkerForDisplay(lat, lng, textBox.value);
         editMarker.setMap(null);
       };
