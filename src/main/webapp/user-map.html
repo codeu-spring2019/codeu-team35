@@ -20,6 +20,22 @@
       });
     }
 
+
+    function createMarkerForDisplay(lat, lng, content){
+
+      const marker = new google.maps.Marker({
+        position: {lat: lat, lng: lng},
+        map: map
+      });
+
+      var infoWindow = new google.maps.InfoWindow({
+        content: content
+      });
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+      });
+    }
+
     function createMarkerForEdit(lat, lng){
 
       if(editMarker){
@@ -35,11 +51,13 @@
         content: buildInfoWindowInput()
       });
 
-      infoWindow.open(map, editMarker);
 
       google.maps.event.addListener(infoWindow, 'closeclick', () => {
       editMarker.setMap(null);
       });
+
+      infoWindow.open(map, editMarker);
+
     }
 
 
@@ -47,6 +65,11 @@
           const textBox = document.createElement('textarea');
           const button = document.createElement('button');
           button.appendChild(document.createTextNode('Submit'));
+
+          button.onclick = () => {
+            createMarkerForDisplay(lat, lng, textBox.value);
+            editMarker.setMap(null);
+          };
 
           const containerDiv = document.createElement('div');
           containerDiv.appendChild(textBox);
