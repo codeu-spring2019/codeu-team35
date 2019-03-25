@@ -6,11 +6,9 @@
 	<script type="text/javascript">
     google.charts.load('current', {packages: ['corechart']});
     google.charts.setOnLoadCallback(drawChart);
-
     function drawChart(){
       //to be filled in later
       var book_data = new google.visualization.DataTable();
-
       //define columns for the DataTable instance
 	book_data.addColumn('string', 'Book Title');
 	book_data.addColumn('number', 'Votes');
@@ -23,13 +21,10 @@
     ["The 57 Bus", 4],
     ["The Handmaid's Tale", 8]
 	]);
-
 	var chart = new google.visualization.BarChart(document.getElementById('book_chart'));		
 	var chart_options = {title: 'Chart Project'};
-
 		chart.draw(book_data, chart_options);
     }
-
 function fetchMessageData() {
           fetch("/messagechart")
               .then((response) => {
@@ -40,7 +35,6 @@ function fetchMessageData() {
                 //define columns for the DataTable instance
                 msgData.addColumn('date', 'Date');
                 msgData.addColumn('number', 'Message Count');
-
                
                 for (i = 0; i < msgJson.length; i++) {
                     msgRow = [];
@@ -50,18 +44,14 @@ function fetchMessageData() {
                
                     //console.log(msgRow);
                     msgData.addRow(msgRow);
-
                 }
                 //console.log(msgData);
                 //drawChart(msgData);
                 var chart = new google.visualization.LineChart(document.getElementById('book_chart'));
 				var chart_options = {title: 'Chart Project'};
-
 				chart.draw(msgData, chart_options);
-
               });
         }
-
 	</script>
   </head>
   <body onload="drawChart()">
