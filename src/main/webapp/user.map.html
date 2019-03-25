@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Map</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+
+    let map;
+
+    function createMap(){
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 38.5949, lng: -94.8923},
+        zoom: 4
+      });
+
+      map.addListener('click', (event) => {
+        const clickLatLng = event.latLng;
+        console.log(clickLatLng.lat() + ', ' + clickLatLng.lng());
+      });
+    }
+  </script>
+    <style>
+    #map{
+      width: 500px;
+      height: 500px;
+    }
+  </style>
+</head>
+<body onload="createMap();">
+<h1>User Map</h1>
+<div id="map"></div>
+</body>
+</html>
