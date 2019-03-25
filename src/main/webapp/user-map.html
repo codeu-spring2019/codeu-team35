@@ -15,9 +15,13 @@
       });
 
       map.addListener('click', (event) => {
-        const clickLatLng = event.latLng;
-        console.log(clickLatLng.lat() + ', ' + clickLatLng.lng());
-      });
+        new google.maps.Marker({
+        position: event.latLng,
+        map: map
+  });
+});
+
+
     }
   </script>
     <style>
