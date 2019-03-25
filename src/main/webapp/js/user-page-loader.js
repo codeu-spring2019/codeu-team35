@@ -39,10 +39,24 @@ function showMessageFormIfLoggedIn() {
       })
       .then((loginStatus) => {
         if (loginStatus.isLoggedIn) {
-          const messageForm = document.getElementById('message-form');
-          messageForm.action = '/messages?recipient=' + parameterUsername;
-          messageForm.classList.remove('hidden');
+          fetchImageUploadUrlAndShowForm();
         }
+      });
+      document.getElementById('about-me-form').classList.remove('hidden');
+}
+
+function fetchImageUploadUrlAndShowForm() {
+  fetch('/image-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        console.log("image upload url!")
+        console.log(imageUploadUrl)
+        const messageForm = document.getElementById('message-form');
+        messageForm.action = imageUploadUrl;
+        messageForm.classList.remove('hidden');
+        document.getElementById('recipientInput').value = parameterUsername;
       });
 }
 
@@ -68,10 +82,28 @@ function fetchMessages() {
 }
 
 /**
+ * Fetch about me string and inserts string to about me container.
+ */
+function fetchAboutMe(){
+  const url = '/about?user=' + parameterUsername;
+  fetch(url).then((response) => {
+    return response.text();
+  }).then((aboutMe) => {
+    const aboutMeContainer = document.getElementById('about-me-container');
+    if(aboutMe == ''){
+      aboutMe = 'This user has not entered any information yet.';
+    }
+
+    aboutMeContainer.innerHTML = aboutMe;
+  });
+}
+
+/**
  * Builds an element that displays the message.
  * @param {Message} message
  * @return {Element}
  */
+/*
 function buildMessageDiv(message) {
   const headerDiv = document.createElement('div');
   headerDiv.classList.add('message-header');
@@ -81,6 +113,10 @@ function buildMessageDiv(message) {
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
+  if(message.imageUrl){
+	bodyDiv.innerHTML += '<br/>';
+  	bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
+  }
 
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
@@ -89,10 +125,39 @@ function buildMessageDiv(message) {
 
   return messageDiv;
 }
+*/
 
+function buildMessageDiv(message) {
+  const headerDiv = document.createElement('div');
+  headerDiv.classList.add('message-header');
+  headerDiv.classList.add('padded');
+
+/*
+  headerDiv.appendChild(document.createTextNode(
+      message.user + ' - ' + formatDate(message.timestamp)));
+*/
+  headerDiv.appendChild(document.createTextNode(
+      message.user + ' - ' + new Date(message.timestamp)));
+
+  const bodyDiv = document.createElement('div');
+  bodyDiv.classList.add('message-body');
+  bodyDiv.classList.add('padded');
+  bodyDiv.innerHTML = message.text;
+
+  const messageDiv = document.createElement('div');
+  messageDiv.classList.add('message-div');
+  messageDiv.classList.add('rounded');
+  messageDiv.classList.add('panel');
+  messageDiv.appendChild(headerDiv);
+  messageDiv.appendChild(bodyDiv);
+
+  return messageDiv;
+}
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
   setPageTitle();
   showMessageFormIfLoggedIn();
   fetchMessages();
+  fetchAboutMe();
+  ClassicEditor.create( document.getElementById('message-input') );
 }
