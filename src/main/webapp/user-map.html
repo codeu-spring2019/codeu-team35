@@ -6,6 +6,7 @@
     <script>
 
     let map;
+    let editMarker;
 
     function createMap(){
 
@@ -21,7 +22,11 @@
 
     function createMarkerForEdit(lat, lng){
 
-      const marker = new google.maps.Marker({
+      if(editMarker){
+        editMarker.setMap(null)
+      }
+
+      editMarker = new google.maps.Marker({
         position: {lat: lat, lng: lng},
         map: map
       });
@@ -30,7 +35,11 @@
         content: buildInfoWindowInput()
       });
 
-      infoWindow.open(map, marker);
+      infoWindow.open(map, editMarker);
+
+      google.maps.event.addListener(infoWindow, 'closeclick', () => {
+      editMarker.setMap(null);
+      });
     }
 
 
