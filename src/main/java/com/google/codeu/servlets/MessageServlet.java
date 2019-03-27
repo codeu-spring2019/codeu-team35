@@ -85,11 +85,13 @@ public class MessageServlet extends HttpServlet {
       return;
     }
     String user = userService.getCurrentUser().getEmail();
+
  //whitelist.basic() processes basic html but no malicious js injection
     String userText = Jsoup.clean(request.getParameter("text"), Whitelist.basic());
     BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
     Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
     List<BlobKey> blobKeys = blobs.get("image");
+    
     String regex = "(https?://(\\w+[/|.|-]?)+\\.(bmp|png|jpg|gif|jpeg|tiff)).*";
     String replacement = "<img src=\"$1\" />";
     String textWithImagesReplaced = userText.replaceAll(regex, replacement);
