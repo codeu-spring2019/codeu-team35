@@ -15,87 +15,89 @@
  */
 
 // Get ?user=XYZ parameter value
-const urlParams = new URLSearchParams(window.location.search);
-const parameterUsername = urlParams.get('user');
+const urlParams = new URLSearchParams(window.location.search)
+const parameterUsername = urlParams.get("user")
 
 // URL must include ?user=XYZ parameter. If not, redirect to homepage.
 if (!parameterUsername) {
-  window.location.replace('/');
+  window.location.replace("/")
 }
 
 /** Sets the page title based on the URL parameter username. */
 function setPageTitle() {
-  document.getElementById('page-title').innerText = parameterUsername;
-  document.title = parameterUsername + ' - User Page';
+  document.getElementById("page-title").innerText = parameterUsername
+  document.title = parameterUsername + " - User Page"
 }
 
 /**
  * Shows the message form if the user is logged in and viewing their own page.
  */
 function showMessageFormIfLoggedIn() {
-  fetch('/login-status')
-      .then((response) => {
-        return response.json();
-      })
-      .then((loginStatus) => {
-        if (loginStatus.isLoggedIn) {
-          fetchImageUploadUrlAndShowForm();
-        }
-      });
-      document.getElementById('about-me-form').classList.remove('hidden');
+  fetch("/login-status")
+    .then(response => {
+      return response.json()
+    })
+    .then(loginStatus => {
+      if (loginStatus.isLoggedIn) {
+        fetchImageUploadUrlAndShowForm()
+      }
+    })
+  document.getElementById("about-me-form").classList.remove("hidden")
 }
 
 function fetchImageUploadUrlAndShowForm() {
-  fetch('/image-upload-url')
-      .then((response) => {
-        return response.text();
-      })
-      .then((imageUploadUrl) => {
-        console.log("image upload url!")
-        console.log(imageUploadUrl)
-        const messageForm = document.getElementById('message-form');
-        messageForm.action = imageUploadUrl;
-        messageForm.classList.remove('hidden');
-        document.getElementById('recipientInput').value = parameterUsername;
-      });
+  fetch("/image-upload-url")
+    .then(response => {
+      return response.text()
+    })
+    .then(imageUploadUrl => {
+      console.log("image upload url!")
+      console.log(imageUploadUrl)
+      const messageForm = document.getElementById("message-form")
+      messageForm.action = imageUploadUrl
+      messageForm.classList.remove("hidden")
+      document.getElementById("recipientInput").value = parameterUsername
+    })
 }
 
 /** Fetches messages and add them to the page. */
 function fetchMessages() {
-  const url = '/messages?user=' + parameterUsername;
+  const url = "/messages?user=" + parameterUsername
   fetch(url)
-      .then((response) => {
-        return response.json();
+    .then(response => {
+      return response.json()
+    })
+    .then(messages => {
+      const messagesContainer = document.getElementById("message-container")
+      if (messages.length == 0) {
+        messagesContainer.innerHTML = "<p>This user has no posts yet.</p>"
+      } else {
+        messagesContainer.innerHTML = ""
+      }
+      messages.forEach(message => {
+        const messageDiv = buildMessageDiv(message)
+        messagesContainer.appendChild(messageDiv)
       })
-      .then((messages) => {
-        const messagesContainer = document.getElementById('message-container');
-        if (messages.length == 0) {
-          messagesContainer.innerHTML = '<p>This user has no posts yet.</p>';
-        } else {
-          messagesContainer.innerHTML = '';
-        }
-        messages.forEach((message) => {
-          const messageDiv = buildMessageDiv(message);
-          messagesContainer.appendChild(messageDiv);
-        });
-      });
+    })
 }
 
 /**
  * Fetch about me string and inserts string to about me container.
  */
-function fetchAboutMe(){
-  const url = '/about?user=' + parameterUsername;
-  fetch(url).then((response) => {
-    return response.text();
-  }).then((aboutMe) => {
-    const aboutMeContainer = document.getElementById('about-me-container');
-    if(aboutMe == ''){
-      aboutMe = 'This user has not entered any information yet.';
-    }
+function fetchAboutMe() {
+  const url = "/about?user=" + parameterUsername
+  fetch(url)
+    .then(response => {
+      return response.text()
+    })
+    .then(aboutMe => {
+      const aboutMeContainer = document.getElementById("about-me-container")
+      if (aboutMe == "") {
+        aboutMe = "This user has not entered any information yet."
+      }
 
-    aboutMeContainer.innerHTML = aboutMe;
-  });
+      aboutMeContainer.innerHTML = aboutMe
+    })
 }
 
 /**
@@ -128,36 +130,37 @@ function buildMessageDiv(message) {
 */
 
 function buildMessageDiv(message) {
-  const headerDiv = document.createElement('div');
-  headerDiv.classList.add('message-header');
-  headerDiv.classList.add('padded');
+  const headerDiv = document.createElement("div")
+  headerDiv.classList.add("message-header")
+  headerDiv.classList.add("padded")
 
-/*
+  /*
   headerDiv.appendChild(document.createTextNode(
       message.user + ' - ' + formatDate(message.timestamp)));
 */
-  headerDiv.appendChild(document.createTextNode(
-      message.user + ' - ' + new Date(message.timestamp)));
+  headerDiv.appendChild(
+    document.createTextNode(message.user + " - " + new Date(message.timestamp))
+  )
 
-  const bodyDiv = document.createElement('div');
-  bodyDiv.classList.add('message-body');
-  bodyDiv.classList.add('padded');
-  bodyDiv.innerHTML = message.text;
+  const bodyDiv = document.createElement("div")
+  bodyDiv.classList.add("message-body")
+  bodyDiv.classList.add("padded")
+  bodyDiv.innerHTML = message.text
 
-  const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message-div');
-  messageDiv.classList.add('rounded');
-  messageDiv.classList.add('panel');
-  messageDiv.appendChild(headerDiv);
-  messageDiv.appendChild(bodyDiv);
+  const messageDiv = document.createElement("div")
+  messageDiv.classList.add("message-div")
+  messageDiv.classList.add("rounded")
+  messageDiv.classList.add("panel")
+  messageDiv.appendChild(headerDiv)
+  messageDiv.appendChild(bodyDiv)
 
-  return messageDiv;
+  return messageDiv
 }
 /** Fetches data and populates the UI of the page. */
 function buildUI() {
-  setPageTitle();
-  showMessageFormIfLoggedIn();
-  fetchMessages();
-  fetchAboutMe();
-  ClassicEditor.create( document.getElementById('message-input') );
+  setPageTitle()
+  showMessageFormIfLoggedIn()
+  fetchMessages()
+  fetchAboutMe()
+  ClassicEditor.create(document.getElementById("message-input"))
 }
