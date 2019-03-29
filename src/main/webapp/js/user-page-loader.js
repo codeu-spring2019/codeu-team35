@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 // Get ?user=XYZ parameter value
 const urlParams = new URLSearchParams(window.location.search)
 const parameterUsername = urlParams.get("user")
@@ -111,7 +110,6 @@ function buildMessageDiv(message) {
   headerDiv.classList.add('message-header');
   headerDiv.appendChild(document.createTextNode(
       message.user + ' - ' + new Date(message.timestamp)));
-
   const bodyDiv = document.createElement('div');
   bodyDiv.classList.add('message-body');
   bodyDiv.innerHTML = message.text;
@@ -119,12 +117,10 @@ function buildMessageDiv(message) {
 	bodyDiv.innerHTML += '<br/>';
   	bodyDiv.innerHTML += '<img src="' + message.imageUrl + '" />';
   }
-
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message-div');
   messageDiv.appendChild(headerDiv);
   messageDiv.appendChild(bodyDiv);
-
   return messageDiv;
 }
 */

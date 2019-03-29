@@ -19,7 +19,6 @@ limitations under the License.
     <link rel="stylesheet" href="/css/main.css" />
     <link rel="stylesheet" href="/css/user-page.css" />
     <script src="https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js"></script>
-    <script src="/js/navigation-loader.js"></script>
     <script src="/js/user-page-loader.js"></script>
   </head>
   <body onloadstart="buildUI();" onload="addLoginOrLogoutLinkToNavigation();">
@@ -31,6 +30,14 @@ limitations under the License.
       </ul>
     </nav>
     <div id="content">
+      <nav id="navigation centered">
+        <center>
+          <a href="/">Home</a>
+          <a href="/map.html">Map</a>
+          <a href="/about.html">About our Team</a>
+	</center>
+
+      </nav>
       <div class="padded rounded panel centered">
         <h1 id="page-title">User Page</h1>
       </div>
