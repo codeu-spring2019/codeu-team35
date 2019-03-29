@@ -10,7 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 /**
- * Returns UFO data as a JSON array, e.g. [{"lat": 38.4404675, "lng": -122.7144313}]
+ * Returns UFO data as a JSON array, e.g. [{"lat": 38.4404675, "lng":
+ * -122.7144313}]
  */
 @WebServlet("/ufo-data")
 public class UfoDataServlet extends HttpServlet {
@@ -22,12 +23,11 @@ public class UfoDataServlet extends HttpServlet {
         ufoSightingArray = new JsonArray();
         Gson gson = new Gson();
         Scanner scanner = new Scanner(getServletContext().getResourceAsStream("/WEB-INF/ufo-sightings.csv"));
-        while(scanner.hasNextLine()) {
+        while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] cells = line.split(",");
 
-
-            if (cells[0]!= null && cells[3]!= null && cells[4]!= null) {
+            if (cells[0] != null && cells[3] != null && cells[4] != null) {
                 String state = cells[0];
                 double lat = Double.parseDouble(cells[3]);
                 double lng = Double.parseDouble(cells[4]);
@@ -44,7 +44,7 @@ public class UfoDataServlet extends HttpServlet {
         response.getOutputStream().println(ufoSightingArray.toString());
     }
 
-    private static class UfoSighting{
+    private static class UfoSighting {
         String state;
         double lat;
         double lng;
